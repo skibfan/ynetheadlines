@@ -5,4 +5,4 @@
 **if you want to get current headlines from ynet, go to** [ynetheadlines.onrender.com/direct](https://ynetheadlines.onrender.com/direct)   
 
 
-**sql query is in data.js file**
+**sql query is stored in data.js file**
