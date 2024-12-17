@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {load} from 'cheerio';
 import { db } from '../config/data.js';
+import puppeteer from 'puppeteer';
 
 export const _getYnet = async () => {
   try {
@@ -24,6 +25,7 @@ export const _getYnet = async () => {
   throw error
 }
 };
+
 
 
 export const _addNewHeadlines = async ({date, data}) => {
@@ -55,3 +57,36 @@ export const _getHeadlinesDB = async () => {
       throw(error)
   }
 }
+
+
+export const _getArticles = async () => {
+  try {
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+
+    await page.goto("https://www.ynet.co.il/home/0,7340,L-8,00.html", {
+      waitUntil: "networkidle2", 
+    });
+
+    const articles = await page.evaluate(() => {
+      const container = document.querySelector('[data-tb-region="News"]');
+      const results = [];
+      const titles = container.querySelectorAll(".slotTitle a span");
+      titles.forEach((title) => {
+        if (title.innerText.trim()) {
+          results.push(title.innerText.trim())
+        }
+      })
+
+      return results;
+    });
+    await browser.close();
+
+    console.log("Succesfully downloaded articles fron News section:", articles);
+    return articles;
+
+  } catch (error) {
+    console.error("Error fetching News section's articles:", error);
+    return [];
+  }
+};

@@ -1,8 +1,9 @@
-import {_addNewHeadlines, _getHeadlinesDB, _getYnet} from "../model/model.js";
+import {_addNewHeadlines, _getArticles, _getHeadlinesDB, _getYnet} from "../model/model.js";
 
 export const getYnet = async () => {
     try {
-        const data = await _getYnet()
+        // const data = await _getYnet()
+        const data = await _getArticles()
         const date = new Date()
         return {date, data}
     } catch (error) {
