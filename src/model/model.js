@@ -14,9 +14,7 @@ export const _getYnet = async () => {
       });
   const $ = load(response.data);
   
-  const headlinesContainer = $('[data-tb-region="News"]');
-
-  
+  const headlinesContainer = $(".slotsContent");
   const headlines = headlinesContainer.find(".slotTitle a span")
     .map((i, el) => $(el).text().trim())
     .get();
@@ -27,6 +25,7 @@ export const _getYnet = async () => {
   throw error
 }
 };
+
 
 
 export const _addNewHeadlines = async ({date, data}) => {
